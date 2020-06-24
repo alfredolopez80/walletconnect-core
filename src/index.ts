@@ -1,3 +1,6 @@
+import EventManager from './events';
+import SessionStorage from './storage';
+import SocketTransport from '@walletconnect/socket-transport';
 import {
   IConnector,
   IConnectorOpts,
@@ -44,7 +47,6 @@ import {
   isMobile,
   removeLocal,
 } from "@walletconnect/utils";
-import SocketTransport from "@walletconnect/socket-transport";
 import {
   ERROR_SESSION_CONNECTED,
   ERROR_SESSION_DISCONNECTED,
@@ -60,8 +62,6 @@ import {
   ERROR_QRCODE_MODAL_NOT_PROVIDED,
   ERROR_QRCODE_MODAL_USER_CLOSED,
 } from "./errors";
-import EventManager from "./events";
-import SessionStorage from "./storage";
 
 // -- Connector ------------------------------------------------------------ //
 
@@ -822,17 +822,17 @@ class Connector implements IConnector {
       throw new Error(ERROR_MISSING_ID);
     }
 
-    if (isJsonRpcResponseError(response)) {
-      const error = formatRpcError(response.error);
+    // if (isJsonRpcResponseError(response)) {
+    //   const error = formatRpcError(response.error);
 
-      const errorResponse: IJsonRpcResponseError = {
-        id: response.id,
-        jsonrpc: "2.0",
-        ...response,
-        error,
-      };
-      return errorResponse;
-    } else if (isJsonRpcResponseSuccess(response)) {
+    //   const errorResponse: IJsonRpcResponseError = {
+    //     id: response.id,
+    //     jsonrpc: "2.0",
+    //     ...response,
+    //     error,
+    //   };
+    //   return errorResponse;
+    // } else if (isJsonRpcResponseSuccess(response)) {
       const successResponse: IJsonRpcResponseSuccess = {
         id: response.id,
         jsonrpc: "2.0",
@@ -840,7 +840,7 @@ class Connector implements IConnector {
       };
 
       return successResponse;
-    }
+    // }
 
     throw new Error(ERROR_INVALID_RESPONSE);
   }
